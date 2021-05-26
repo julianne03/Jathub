@@ -3,9 +3,13 @@ from django.db import models
 class Repository(models.Model) :
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=200)
+    deadline = models.DateTimeField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     # repo.introduction_set : repository와 연결되어 있는 자소서를 가져오려고 할 때
+
+    class Meta:  # 테이블 전체에 적용되는 것
+        verbose_name_plural = 'Repositories'
 
     def __str__(self):
         return self.name
