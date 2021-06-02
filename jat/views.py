@@ -20,5 +20,16 @@ class RepositoryCreateView(generic.CreateView) :
     success_url = reverse_lazy('jat:repository_list')
 
 
+class RepositoryUpdateView(generic.UpdateView) :
+    model = Repository
+    fields = ['name', 'description', 'deadline']  # __all__
+    template_name_suffix = '_update'
+    success_url = reverse_lazy('jat:repository_list')
+
+
+class RepositoryDeleteView(generic.DeleteView) :
+    model = Repository
+    success_url = reverse_lazy('jat:repository_list')
+
 class IntroductionDetailView(generic.DetailView) :
     model = Introduction
