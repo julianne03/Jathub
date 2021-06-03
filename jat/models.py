@@ -15,6 +15,7 @@ class Repository(models.Model) :
     def __str__(self):
         return self.name
 
+
 class Introduction(models.Model) :
     repository = models.ForeignKey(Repository, on_delete=models.CASCADE)  # intro1.repository
     version = models.IntegerField(default=1)
