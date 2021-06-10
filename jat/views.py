@@ -36,6 +36,7 @@ class RepositoryDeleteView(generic.DeleteView) :
 class IntroductionDetailView(generic.DetailView) :
     model = Introduction
 
+
 class IntroductionCreateView(generic.CreateView) :
     model = Introduction
     fields = ['repository', 'version', 'contents', 'access']  # '__all__'
@@ -71,30 +72,42 @@ class IntroductionDeleteView(generic.DeleteView) :
         return reverse_lazy('jat:repository_detail', kwargs={'pk': self.kwargs['repository_pk']})
 
 
-class CommentCreateView(generic.CreateView) :
+class CommentCreateView(generic.CreateView):
     model = Comment
-    fields = ['introduction', 'comment']
-    template_name_suffix = '_create'
+    fields = '__all__'  # ['introduction', 'comment'] => 자동으로 입력되는 필드는 생략함
+    template_name_suffix = '_create' # comment_create.html
 
     def get_initial(self):
         introduction = get_object_or_404(Introduction, pk=self.kwargs['introduction_pk'])
-        return { 'introduction': introduction }
+        return {'introduction': introduction}
 
-    def get_success_url(self):
-        return reverse_lazy('jat:introduction_detail', kwargs={'repository_pk' : self.kwargs['repository_pk'],'pk' : self.kwargs['introduction_pk']})
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)
 
 
 class CommentUpdateView(generic.UpdateView):
     model = Comment
-    fields = ['introduction', 'comment']  # '__all__'
-    template_name_suffix = '_update'
+    fields = '__all__'  # ['introduction', 'comment'] => 자동으로 입력되는 필드는 생략함
+    template_name_suffix = '_update'  # comment_update.html
 
-    def get_success_url(self):
-        return reverse_lazy('jat:introduction_detail', kwargs={'repository_pk' : self.kwargs['repository_pk'],'pk' : self.kwargs['introduction_pk']})
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)
 
 
 class CommentDeleteView(generic.DeleteView):
     model = Comment
 
-    def get_success_url(self):
-        return reverse_lazy('jat:introduction_detail', kwargs={'repository_pk' : self.kwargs['repository_pk'],'pk' : self.kwargs['introduction_pk']})
+    def get_success_url(self):  # jat:introduction_detail repository_pk pk
+        kwargs = {
+            'repository_pk': self.kwargs['repository_pk'],
+            'pk': self.kwargs['introduction_pk'],
+        }
+        return reverse_lazy('jat:introduction_detail', kwargs=kwargs)
